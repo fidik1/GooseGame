@@ -29,6 +29,8 @@ public class GooseMovement : MonoBehaviour
         // но раз уж вызываем здесь, то 
         // двигать будем использу€ множитель fixedDeltaTimе 
         MovementLogic();
+
+        RotateGoose();
     }
 
     private void MovementLogic()
@@ -42,6 +44,16 @@ public class GooseMovement : MonoBehaviour
         // что бы скорость была стабильной в любом случае
         // и учитыва€ что мы вызываем из FixedUpdate мы умножаем на fixedDeltaTimе
         transform.Translate(movement * Speed * Time.fixedDeltaTime);
+    }
+
+    private void RotateGoose()
+    {
+        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal") * Speed, 0f, Input.GetAxis("Vertical") * Speed);
+        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+
+        Vector3 lookDirection = moveDirection + transform.position;
+
+        transform.LookAt(new Vector3(lookDirection.x, transform.position.y, lookDirection.z));
     }
 
     private void JumpLogic()
